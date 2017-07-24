@@ -1,3 +1,7 @@
+if_na <- function(a, b) {
+  a[is.na(a)] <- b
+  a
+}
 
 is_named <- function(x) !is.null(names(x))
 is_logical <- function(x) class(x) == "logical"
