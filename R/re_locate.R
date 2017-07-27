@@ -21,11 +21,15 @@ re_locate_all <- function(x, pattern) {
     if (is.na(pattern)) return(NA)
     gregexpr(pattern, x,useBytes = FALSE,perl = TRUE)
   }
-  x <- if_na(x, "")
+  is_na <- is.na(x)
+  x[is_na] <- ""
   if (length(pattern) > 1) {
     res <- map_lst(.gregexpr, x, pattern)
     res <- map_lst(`[[`,res,1L)
   } else res <- .gregexpr(x, pattern)
+  res <- map_if(function(x) NA,
+                is_na,
+                res)
   map_lst(.simplify_match, res)
 }
 
